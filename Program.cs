@@ -11,8 +11,8 @@ namespace gridmatrix
         static void Main(string[] args)
         {
             string grid = "AA00";
-            int height = 15;
-            int width = 15;
+            int height = 11;
+            int width = 11;
 
             // First element is upper left corner, last element is lower right corner
             List<string> gridlist = GetList_GridArray(grid, height, width);
@@ -27,28 +27,28 @@ namespace gridmatrix
         {
             const int wrap = 10 * ('R' + 1 - 'A');
             List<string> result = new List<string>();
-            Regex grid4 = new Regex("^(OWN|[A-R]{2}[0-9]{2}([A-X]{2})?)$");
+            Regex validation = new Regex("^(OWN|[A-R]{2}[0-9]{2}([A-X]{2})?)$");
 
-            if (!grid4.IsMatch(center) || height < 0 || height > 20 || width < 0 || width > 20)
+            if (!validation.IsMatch(center) || height < 0 || height > 20 || width < 0 || width > 20)
             {
                 result.Add("Error");
                 return result;
             }
 
-            char[] chars = (center == "OWN" ? DALHeaderGrid : center).ToCharArray();
+            char[] gridSquare = (center == "OWN" ? DALHeaderGrid : center).ToCharArray();
 
             // Map center maidenhead grid onto a continuous 180 by 180 grid
             // Maidenhead system has origin in south-west whereas a multiplier list
             // starts in upper left corner (thus "- row" below)
-            int lonSq = 10 * (chars[0] - 'A') + chars[2] - '0';
-            int latSq = 10 * (chars[1] - 'A') + chars[3] - '0';
+            int lonSq = 10 * (gridSquare[0] - 'A') + gridSquare[2] - '0';
+            int latSq = 10 * (gridSquare[1] - 'A') + gridSquare[3] - '0';
 
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    // Calculate the current square's location in the continuous
-                    // grid and convert this back to Maidenhead.
+                    // Calculate the [row,col] square's coordinates in the continuous
+                    // grid and then convert them back to the corresponding Maidenhead grid.
                     // Make letters wrap around from R to A and vice versa
                     // Make numbers wrap around from 9 to 0 and vice versa
                     int contVer = (wrap + latSq - row + (height - 1)/ 2) % wrap;
