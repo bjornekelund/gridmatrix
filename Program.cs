@@ -7,26 +7,17 @@ namespace gridmatrix
         static void Main(string[] args)
         {
             string grid = "RR85MR";
-            int height = 9;
-            int width = 9;
+            int height = 11;
+            int width = 11;
 
             string[,] matrix = GridMatrix(grid, height, width);
-            Console.WriteLine("Matrix:");
+
+            // 0,0 is upper left corner, height-1,width-1 is lower right corner
             for (int vert = 0; vert < height; vert++)
             {
                 for (int hor = 0; hor < width; hor++)
                     Console.Write(matrix[vert, hor] + " ");
                 Console.WriteLine();
-            }
-
-            string[] array = GridArray(grid, height, width);
-            Console.WriteLine("Array:");
-            for (int index = 1; index <= array.Length; index++)
-            {
-                if (index % width != 0)
-                    Console.Write(array[index - 1] + " ");
-                else
-                    Console.WriteLine(array[index - 1]);
             }
         }
 
@@ -34,55 +25,29 @@ namespace gridmatrix
         {
             string[,] result = new string[height, width];
 
-            // Map maidenhead grid onto a continuous grid
+            // Map center maidenhead grid onto a continuous 150 by 150 grid
+            // Maidenhead system has origin in south-west
+            // The created matrix has 0,0 in upper left corner
             int lonsq = 10 * (square.Substring(0, 1)[0] - 'A') + int.Parse(square.Substring(2, 1));
             int latsq = 10 * (square.Substring(1, 1)[0] - 'A') + int.Parse(square.Substring(3, 1));
 
-            for (int vert = 0; vert < height; vert++)
+            for (int row = 0; row < height; row++)
             {
-                for (int hor = 0; hor < width; hor++)
+                for (int col = 0; col < width; col++)
                 {
-                    // Real square in continuous grid corresponding to vert and hor
-                    int maxp1 = 10 * ('R' - 'A' + 1);
-                    int thisvert = (maxp1 + latsq - (vert - (height - 1) / 2)) % maxp1;
-                    int thishor = (maxp1 + lonsq + (hor - (width - 1) / 2)) % maxp1;
+                    // Calculate the current square's location in the continuous grid 
+                    // Make letter wrap around from R to A and vice versa
+                    // Make number wrap around from 9 to 0 and vice versa
+                    int wrap = 10 * ('S' - 'A');
+                    int contVer = (wrap + latsq - (row - (height - 1) / 2)) % wrap;
+                    int contHor = (wrap + lonsq + (col - (width - 1) / 2)) % wrap;
 
-                    // Form name of grid in matrix
-                    string firstc = ((char)(thishor / 10 + 'A')).ToString();
-                    string secc = ((char)(thisvert / 10 + 'A')).ToString();
-                    string firstd = (thishor % 10).ToString();
-                    string secd = (thisvert % 10).ToString();
-
-                    result[vert, hor] = firstc + secc + firstd + secd;
-                }
-            }
-
-            return result;
-        }
-
-        static private string[] GridArray(string square, int height, int width)
-        {
-            string[] result = new string[height * width];
-
-            // Map maidenhead grid onto a continuous grid
-            int lonsq = 10 * (square.Substring(0, 1)[0] - 'A') + int.Parse(square.Substring(2, 1));
-            int latsq = 10 * (square.Substring(1, 1)[0] - 'A') + int.Parse(square.Substring(3, 1));
-
-            for (int vert = 0; vert < height; vert++)
-            {
-                for (int hor = 0; hor < width; hor++)
-                {
-                    int maxp1 = 10 * ('R' - 'A' + 1);
-                    int thisvert = (maxp1 + latsq - (vert - (height - 1) / 2)) % maxp1;
-                    int thishor = (maxp1 + lonsq + (hor - (width - 1) / 2)) % maxp1;
-
-                    // Form name of grid in array
-                    string firstc = ((char)(thishor / 10 + 'A')).ToString();
-                    string secc = ((char)(thisvert / 10 + 'A')).ToString();
-                    string firstd = (thishor % 10).ToString();
-                    string secd = (thisvert % 10).ToString();
-
-                    result[vert * width + hor] = firstc + secc + firstd + secd;
+                    // Convert location back to grid square format
+                    result[row, col] = string.Format("{0}{1}{2}{3}", 
+                        (char)(contHor / 10 + 'A'), 
+                        (char)(contVer / 10 + 'A'), 
+                        contHor % 10, 
+                        contVer % 10);
                 }
             }
 
