@@ -10,7 +10,7 @@ namespace gridmatrix
 
         static void Main(string[] args)
         {
-            string grid = "AA00";
+            string grid = "AA00AA";
             int height = 11;
             int width = 11;
 
@@ -27,7 +27,7 @@ namespace gridmatrix
         {
             const int wrap = 10 * ('R' + 1 - 'A');
             List<string> result = new List<string>();
-            Regex validation = new Regex("^(OWN|[A-R]{2}[0-9]{2}([A-X]{2})?)$");
+            Regex validation = new Regex("^(OWNGRID|[A-R]{2}[0-9]{2}([A-X]{2})?)$");
 
             if (!validation.IsMatch(center) || height < 0 || height > 20 || width < 0 || width > 20)
             {
@@ -35,7 +35,7 @@ namespace gridmatrix
                 return result;
             }
 
-            char[] gridSquare = (center == "OWN" ? DALHeaderGrid : center).ToCharArray();
+            char[] gridSquare = (center == "OWNGRID" ? DALHeaderGrid : center).ToCharArray();
 
             // Map center maidenhead grid onto a continuous 180 by 180 grid
             // Maidenhead system has origin in south-west whereas a multiplier list
