@@ -19,7 +19,6 @@ namespace gridmatrix
                 Console.WriteLine();
             }
 
-
             string[] array = GridArray(grid, height, width);
             Console.WriteLine("Array:");
             for (int index = 1; index <= array.Length; index++)
@@ -48,7 +47,7 @@ namespace gridmatrix
                     int thisvert = (maxp1 + latsq - (vert - (height - 1) / 2)) % maxp1;
                     int thishor = (maxp1 + lonsq + (hor - (width - 1) / 2)) % maxp1;
 
-                    // Form name of grid
+                    // Form name of grid in matrix
                     string firstc = ((char)(thishor / 10 + 'A')).ToString();
                     string secc = ((char)(thisvert / 10 + 'A')).ToString();
                     string firstd = (thishor % 10).ToString();
@@ -77,7 +76,7 @@ namespace gridmatrix
                     int thisvert = (maxp1 + latsq - (vert - (height - 1) / 2)) % maxp1;
                     int thishor = (maxp1 + lonsq + (hor - (width - 1) / 2)) % maxp1;
 
-                    // Form name of grid
+                    // Form name of grid in array
                     string firstc = ((char)(thishor / 10 + 'A')).ToString();
                     string secc = ((char)(thisvert / 10 + 'A')).ToString();
                     string firstd = (thishor % 10).ToString();
