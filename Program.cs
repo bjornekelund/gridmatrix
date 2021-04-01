@@ -40,8 +40,8 @@ namespace gridmatrix
             // Map center maidenhead grid onto a continuous 180 by 180 grid
             // Maidenhead system has origin in south-west whereas a multiplier list
             // starts in upper left corner (thus "- row" below)
-            int lonSq = 10 * (gridSquare[0] - 'A') + gridSquare[2] - '0';
-            int latSq = 10 * (gridSquare[1] - 'A') + gridSquare[3] - '0';
+            int centCol = 10 * (gridSquare[0] - 'A') + gridSquare[2] - '0';
+            int centRow = 10 * (gridSquare[1] - 'A') + gridSquare[3] - '0';
 
             for (int row = 0; row < height; row++)
             {
@@ -51,13 +51,13 @@ namespace gridmatrix
                     // grid and then convert them back to the corresponding Maidenhead grid.
                     // Make letters wrap around from R to A and vice versa
                     // Make numbers wrap around from 9 to 0 and vice versa
-                    int contVer = (wrap + latSq - row + (height - 1)/ 2) % wrap;
-                    int contHor = (wrap + lonSq + col - (width - 1) / 2) % wrap;
+                    int thisRow = (centRow - (row - (height - 1)/ 2) + wrap) % wrap;
+                    int thisCol = (centCol + (col - (width - 1) / 2) + wrap) % wrap;
 
                     // Convert location back to grid square format
                     result.Add(string.Format("{0}{1}{2}{3}",
-                        (char)(contHor / 10 + 'A'), (char)(contVer / 10 + 'A'),
-                        contHor % 10, contVer % 10));
+                        (char)(thisCol / 10 + 'A'), (char)(thisRow / 10 + 'A'),
+                        thisCol % 10, thisRow % 10));
                 }
             }
 
