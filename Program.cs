@@ -24,12 +24,12 @@ namespace gridmatrix
             // 0 is upper left corner, height*width-1 is lower right corner
             Console.WriteLine("Array:");
             string[] array = GridArray(grid, height, width);
-            for (int index = 1; index <= height * width; index++)
+            for (int index = 0; index < height * width; index++)
             {
-                if (index % width != 0)
-                    Console.Write(array[index - 1] + " ");
+                if ((index + 1) % width != 0)
+                    Console.Write(array[index] + " ");
                 else
-                    Console.WriteLine(array[index - 1]);
+                    Console.WriteLine(array[index]);
             }
         }
 
