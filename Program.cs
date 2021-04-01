@@ -14,10 +14,10 @@ namespace gridmatrix
 
             // First element is upper left corner, last element is lower right corner
             List<string> gridlist = GetList_GridArray(grid, height, width);
-            int count = 1;
+            int count = 0;
             foreach (string square in gridlist)
             {
-                Console.Write(square + (count++ % width != 0 ? " " : "\n"));
+                Console.Write(square + (++count % width != 0 ? " " : "\n"));
             }
         }
 
