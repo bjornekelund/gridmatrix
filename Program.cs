@@ -41,8 +41,6 @@ namespace gridmatrix
                     int maxp1 = 10 * ('R' - 'A' + 1);
                     int thisvert = (maxp1 + latsq - (vert - (height - 1) / 2)) % maxp1;
                     int thishor = (maxp1 + lonsq + (hor - (width - 1) / 2)) % maxp1;
-                    //int thisvert = (latsq - (vert - (height - 1) / 2));
-                    //int thishor = (lonsq + (hor - (width - 1) / 2));
 
                     // Form name of grid
                     string firstc = ((char)(thishor / 10 + 'A')).ToString();
