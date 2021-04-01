@@ -6,6 +6,8 @@ namespace gridmatrix
 {
     class Program
     {
+        const string DALHeaderGrid = "JO65MR";
+
         static void Main(string[] args)
         {
             string grid = "AA00";
@@ -27,13 +29,13 @@ namespace gridmatrix
             List<string> result = new List<string>();
             Regex grid4 = new Regex("^(OWN|[A-R]{2}[0-9]{2}([A-X]{2})?)$");
 
-            if (!grid4.IsMatch(center.ToUpper()) || height < 0 || height > 20 || width < 0 || width > 20)
+            if (!grid4.IsMatch(center) || height < 0 || height > 20 || width < 0 || width > 20)
             {
                 result.Add("Error");
                 return result;
             }
 
-            char[] chars = (center == "OWN" ? "JO65" : center.ToUpper()).ToCharArray();
+            char[] chars = (center == "OWN" ? DALHeaderGrid : center).ToCharArray();
 
             // Map center maidenhead grid onto a continuous 180 by 180 grid
             // Maidenhead system has origin in south-west whereas a multiplier list
